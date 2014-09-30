@@ -1,8 +1,17 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-/*
-Copyright (C) 2014, Richard Whitmer/Godat Design, Inc.
-*/
+/**
+ *	Gdtindex_ext
+ *
+ *	@package		Gdtindex
+ *	@author			Richard Whitmer/Godat Design, Inc.
+ *	@copyright	(c) 2014, Godat Design, Inc.
+ *	
+ *	@link				http://godatdesign.com
+ *	@since			Version 1.0
+ */
+ 
+ // ------------------------------------------------------------------------
 
 class Gdtindex_ext {
 
@@ -46,8 +55,6 @@ class Gdtindex_ext {
 		*
 		* @return void
 		*/
-		
-		
 		function activate_extension()
 		{
 
@@ -150,8 +157,6 @@ class Gdtindex_ext {
 		
 		// Update options for this entry;
 		$update = ee()->shared->update_entry_index($entry_id);
-			
-
 
 		
 		return TRUE;
@@ -198,12 +203,30 @@ class Gdtindex_ext {
 		
 		
 		$this->EE->dbforge->add_field($fields);
-
+		
 		return $this->EE->dbforge->create_table(ee()->shared->index_table,TRUE);
+		
+
 	 }
 	 
 	 
 	// --------------------------------------------------------------------
+	
+	
+	public function index_fields()
+	{
+		
+				$sql = "CREATE INDEX entry_id_index ON " . ee()->db->dbprefix . ee()->shared->index_table . "(entry_id)";
+				ee()->db->query($sql); 
+			
+				$sql = "CREATE INDEX field_id_index ON " . ee()->db->dbprefix . ee()->shared->index_table . "(field_id)";
+				ee()->db->query($sql); 
+			 
+				$sql = "CREATE INDEX field_value_index ON " . ee()->db->dbprefix . ee()->shared->index_table . "(field_value)";
+				ee()->db->query($sql); 
+				
+				return TRUE;
+	}
 	 
 
 	
@@ -332,7 +355,14 @@ class Gdtindex_ext {
 	      // Build and populate the options table based on the current settings.
 	      if($this->build_index())
 	      {
+		      
+		      // Seed the table from existing entries.
 		      $this->populate_index();
+		      
+		      // Create db table indexes
+		      $this->index_fields();
+		      
+	      
 	      };
 
 	 }

@@ -1,24 +1,34 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-/*
-Copyright (C) 2014, Richard Whitmer/Godat Design, Inc.
-*/
+/**
+ *	Shared
+ *
+ *	@package		Gdtindex
+ *	@author			Richard Whitmer/Godat Design, Inc.
+ *	@copyright	(c) 2014, Godat Design, Inc.
+ *	
+ *	@link				http://godatdesign.com
+ *	@since			Version 1.0
+ */
+ 
+ // ------------------------------------------------------------------------
 
 if( ! class_exists('Shared'))
 {
 
 	class Shared 	{
 	
-		public	$settings				= array('channel_id'=>array());	
-		public	$index_table		= 'gdtindex';		
-		public	$package_name		= 'Gdtindex';
-		public	$member_id			= FALSE;
-		public	$field_data			= array();
-		public	$field_ids			= array();
-		public	$field_names		= array();
-		public	$multis					= array('multi_select','checkboxes');	// field types that accept multiple values.
-		public	$multi_selects	= array();
-		public	$ignore_fields	= array('entry_id','site_id','channel_id','title','url_title','author_id');
+		public	$settings					= array('channel_id'=>array());	
+		public	$index_table			= 'gdtindex';		
+		public	$package_name			= 'Gdtindex';
+		public	$member_id				= FALSE;
+		public	$field_data				= array();
+		public	$field_ids				= array();
+		public	$field_names			= array();
+		public	$multis						= array('multi_select','checkboxes');	// field types that accept multiple values.
+		public	$multi_selects		= array();
+		public	$ignore_fields		= array('entry_id','site_id','channel_id','title','url_title','author_id');
+		public	$ignore_field_types	= array('file','grid','relationship');
 
 		function __construct()
 		{
@@ -177,9 +187,11 @@ if( ! class_exists('Shared'))
 	 					->select($sel,FALSE)
 	 					->join('channels','channels.field_group=channel_fields.group_id')
 	 					->where_in('channels.channel_id',$this->settings['channel_id'])
+	 					->where_not_in('channel_fields.field_type',$this->ignore_field_types)
 	 					->order_by('channel_fields.field_id')
 	 					->get('channel_fields');
 	 					
+
 	 		return $query->result();
 
 	 }

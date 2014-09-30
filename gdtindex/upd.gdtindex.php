@@ -1,8 +1,20 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-/*
-Copyright (C) 2014, Richard Whitmer/Godat Design, Inc.
-*/
+
+/**
+ *	Gdtindex_upd
+ *
+ *	@package		Gdtindex
+ *	@author			Richard Whitmer/Godat Design, Inc.
+ *	@copyright	(c) 2014, Godat Design, Inc.
+ *	@license		
+ *	
+ *	@link				http://godatdesign.com
+ *	@since			Version 1.0
+ */
+ 
+ // ------------------------------------------------------------------------
+
 
 class Gdtindex_upd {
 
