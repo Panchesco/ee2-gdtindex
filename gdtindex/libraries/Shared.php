@@ -22,6 +22,9 @@ if( ! class_exists('Shared'))
 		public	$index_table			= 'gdtindex';		
 		public	$package_name			= 'Gdtindex';
 		public	$member_id				= FALSE;
+		public	$channel_ids			= array();
+		public	$channel_names		= array();
+		public	$field_groups			= array();
 		public	$field_data				= array();
 		public	$field_ids				= array();
 		public	$field_names			= array();
@@ -42,7 +45,10 @@ if( ! class_exists('Shared'))
 	
 	// --------------------------------------------------------------------
 	
-	
+	/**
+	 *	Initalize class with current properties.
+	 *	@return void.
+	 */
 	public function initialize()
 	{
 		
@@ -50,9 +56,29 @@ if( ! class_exists('Shared'))
 			
 			$this->settings		= $this->settings();
 			$this->field_data	= $this->channel_field_data();
+			$this->set_channel_arrays();
 			$this->set_field_arrays();
 			$this->set_multi_selects();
 			
+	}
+	
+	
+	// --------------------------------------------------------------------
+	
+	public function set_channel_arrays()
+	{
+		
+		ee()->load->library('api'); 
+		ee()->api->instantiate('channel_structure');
+		$channels	= 	ee()->api_channel_structure->get_channels(FALSE);
+		
+		foreach($channels->result() as $key=>$row)
+		{
+			$this->channel_ids[$row->channel_name]	= $row->channel_id;
+			$this->channel_names[$row->channel_id]	= $row->channel_name;
+			$this->field_groups[$row->channel_id]		= $row->field_group;
+		}		
+		
 	}
 	
 	// --------------------------------------------------------------------
