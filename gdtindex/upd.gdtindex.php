@@ -92,8 +92,6 @@ class Gdtindex_upd {
 
 	 ee()->db->insert('actions', $data);
 
-
-		
 		return TRUE;
 	}
 	

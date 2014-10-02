@@ -3,6 +3,9 @@ $lang = array(
 'gdtindex_module_name' => 
 "Good at Index",
 
+'no_results' =>
+'No results were found using those options',
+
 'yes'	=>
 "Yes",
 'no'	=>
